@@ -43,8 +43,8 @@ def generate_chunk_summary(chunk, model):
     - A summary of the text chunk.
     """
     prompt = f"Summarize the following text:\n\n{chunk}"
-    # response = model.call_as_llm(prompt)  # Assuming call_as_llm is synchronous OpenAI API call
-    response = model.invoke(prompt) # Azure OpenAI
+    response = model.call_as_llm(prompt)  # Assuming call_as_llm is synchronous OpenAI API call
+    # response = model.invoke(prompt) # Azure OpenAI
 
     return response
 
@@ -59,8 +59,8 @@ def summarize_text(text):
     Yields:
     - A summary for each chunk of text.
     """
-    # llm = ChatOpenAI(model_name="gpt-3.5-turbo")  # Initialize the language model OpenAI
-    llm = AzureOpenAI(deployment_name="gpt-35-turbo") # Azure OpenAI
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo")  # Initialize the language model OpenAI
+    # llm = AzureOpenAI(deployment_name="gpt-35-turbo") # Azure OpenAI
     chunks = get_text_chunks(text)  # Get text chunks
     
     for chunk in chunks:
@@ -75,8 +75,8 @@ def get_vectorstore(text_chunks):
 
 # Function to create a conversation chain
 def get_conversation_chain(vectorstore):
-    # llm = ChatOpenAI(model_name="gpt-3.5-turbo") # OpenAI
-    llm = llm = AzureOpenAI(deployment_name="gpt-35-turbo") # Azure OpenAI
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo") # OpenAI
+    # llm = llm = AzureOpenAI(deployment_name="gpt-35-turbo") # Azure OpenAI
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
